@@ -41,6 +41,9 @@ class CrackGeeTest:
         username_input.send_keys(self.username)
         password_input.send_keys(self.password)
 
+    def open_another(self):
+        self.browser.get('https://hubei.zjtcn.com/facx/c000_t0101_d201811_p1_k_qa_qi.html')
+
     def getTracks(self,distance):
         track = []
         current = 0
@@ -81,4 +84,5 @@ class CrackGeeTest:
 if __name__ == "__main__":
     crack = CrackGeeTest()
     crack.crack()
+    crack.open_another()
     
