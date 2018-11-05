@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy import Request
+import sys
+sys.path.append('..')
+from ..items import ZaojiatongItem
 
 
 class ZaojiaSpider(scrapy.Spider):

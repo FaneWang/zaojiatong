@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'zaojiatong.spiders'
 #USER_AGENT = 'zaojiatong (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -94,4 +94,7 @@ MAX_PAGE = 100
 SELENIUM_TIMEOUT = 20
 MONGO_URI = '127.0.0.1:27017'
 MONGO_DB = 'zaojiatong'
+USERNAME = '18502827757'
+PASSWORD = 'wyf073008'
+LOGIN_URL = 'https://member.zjtcn.com/common/login.html'
 
