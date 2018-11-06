@@ -13,6 +13,7 @@ from scrapy.http import HtmlResponse
 from logging import getLogger
 from selenium.webdriver import ActionChains
 import time
+import requests
 
 
 class ZaojiatongDownloaderMiddleware(object):
@@ -38,8 +39,8 @@ class ZaojiatongDownloaderMiddleware(object):
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
-        return cls(username=crawler.settgings.get('USERNAME'), password=crawler.settgings.get('PASSWORD'),
-                   login_url=crawler.settgings.get('LOGIN_URL'), timeout=crawler.settgings.get('SELENIUM_TIMEOUT'))
+        return cls(username=crawler.settings.get('USERNAME'), password=crawler.settings.get('PASSWORD'),
+                   login_url=crawler.settings.get('LOGIN_URL'), timeout=crawler.settings.get('SELENIUM_TIMEOUT'))
 
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
@@ -121,3 +122,31 @@ class ZaojiatongDownloaderMiddleware(object):
         button = self.getButton()
         # print(button)
         button.click()
+
+
+class ProxyMiddleware:
+    def __init__(self, proxy_url):
+        self.logger = getLogger(__name__)
+        self.proxy_url = proxy_url
+
+    def get_random_proxy(self):
+        try:
+            response = requests.get(self.proxy_url)
+            if response.status_code == 200:
+                proxy = response.text
+                return proxy
+        except requests.ConnectionError:
+            return False
+
+    def process_request(self, request, spider):
+        if request.meta.get('retry_times'):
+            proxy = self.get_random_proxy()
+            if proxy:
+                url = 'https://{proxy}'.format(proxy=proxy)
+                self.logger.debug('使用代理' + proxy)
+                request.meta['proxy'] = url
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        settings = crawler.settings
+        return cls(proxy_url=settings.get('PROXY_URL'))

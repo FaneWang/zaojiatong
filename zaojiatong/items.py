@@ -12,7 +12,7 @@ from scrapy import Field
 class ZaojiatongItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    collections = 'zaojiatong'
+    collections = 'zaojiaxinxi'
     name = Field()
     model = Field()
     market_price = Field()
